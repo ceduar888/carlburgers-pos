@@ -1,0 +1,24 @@
+# Archivos de compilación
+bin/
+obj/
+
+# Configuración de usuario de Visual Studio
+*.user
+*.suo
+*.vscode/
+
+# Archivos de depuración y logs
+*.log
+*.tlog
+*.cache
+*.pdb
+
+# Archivos generados por NuGet
+*.nupkg
+project.lock.json
+.nuget/
+
+# Configuración de entorno
+appsettings.json
+appsettings.Development.json
+secrets.json

@@ -1,0 +1,636 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DataBase_RestaurantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="idCategoria" />
+          </Key>
+          <Property Name="idCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreCategoria" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreCliente" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellidoCliente" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="direccionCliente" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="duiCliente" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="telefonoCliente" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DetallePedido">
+          <Key>
+            <PropertyRef Name="idDetallePedido" />
+          </Key>
+          <Property Name="idDetallePedido" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cantidad" Type="int" Nullable="false" />
+          <Property Name="subTotal" Type="float" Nullable="false" />
+          <Property Name="codMesa" Type="int" />
+          <Property Name="codOrden" Type="int" />
+          <Property Name="codPlatillo" Type="int" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="idEmpleado" />
+          </Key>
+          <Property Name="idEmpleado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreEmpleado" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="apellidoEmpleado" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="telefonoEmpleado" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="sueldoEmpleado" Type="float" Nullable="false" />
+          <Property Name="codUsuario" Type="int" />
+        </EntityType>
+        <EntityType Name="Mesa">
+          <Key>
+            <PropertyRef Name="idMesa" />
+          </Key>
+          <Property Name="idMesa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numeroMesa" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orden">
+          <Key>
+            <PropertyRef Name="idOrden" />
+          </Key>
+          <Property Name="idOrden" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fechaOrden" Type="date" Nullable="false" />
+          <Property Name="estadoOrden" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="tipoOrden" Type="varchar" MaxLength="30" />
+          <Property Name="totalOrden" Type="float" Nullable="false" />
+          <Property Name="codCliente" Type="int" />
+          <Property Name="codEmpleado" Type="int" />
+          <Property Name="codMesa" Type="int" />
+        </EntityType>
+        <EntityType Name="Platillo">
+          <Key>
+            <PropertyRef Name="idPlatillo" />
+          </Key>
+          <Property Name="idPlatillo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombrePlatillo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="precioPlatillo" Type="float" Nullable="false" />
+          <Property Name="descPlatillo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="codCategoria" Type="int" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreRol" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreUsuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="passwordUsuario" Type="varchar" MaxLength="512" Nullable="false" />
+          <Property Name="codRol" Type="int" />
+        </EntityType>
+        <Association Name="FK__DetallePe__codMe__4CA06362">
+          <End Role="Mesa" Type="Self.Mesa" Multiplicity="0..1" />
+          <End Role="DetallePedido" Type="Self.DetallePedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mesa">
+              <PropertyRef Name="idMesa" />
+            </Principal>
+            <Dependent Role="DetallePedido">
+              <PropertyRef Name="codMesa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DetallePe__codOr__4D94879B">
+          <End Role="Orden" Type="Self.Orden" Multiplicity="0..1" />
+          <End Role="DetallePedido" Type="Self.DetallePedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orden">
+              <PropertyRef Name="idOrden" />
+            </Principal>
+            <Dependent Role="DetallePedido">
+              <PropertyRef Name="codOrden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DetallePe__codPl__4E88ABD4">
+          <End Role="Platillo" Type="Self.Platillo" Multiplicity="0..1" />
+          <End Role="DetallePedido" Type="Self.DetallePedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platillo">
+              <PropertyRef Name="idPlatillo" />
+            </Principal>
+            <Dependent Role="DetallePedido">
+              <PropertyRef Name="codPlatillo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Empleado__codUsu__3C69FB99">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orden__codClient__47DBAE45">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="codCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orden__codEmplea__48CFD27E">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
+          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="idEmpleado" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="codEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orden__codMesa__49C3F6B7">
+          <End Role="Mesa" Type="Self.Mesa" Multiplicity="0..1" />
+          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mesa">
+              <PropertyRef Name="idMesa" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="codMesa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Platillo__codCat__44FF419A">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+          <End Role="Platillo" Type="Self.Platillo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="idCategoria" />
+            </Principal>
+            <Dependent Role="Platillo">
+              <PropertyRef Name="codCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__codRol__398D8EEE">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="idRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="codRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataBase_RestaurantModelStoreContainer">
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetallePedido" EntityType="Self.DetallePedido" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mesa" EntityType="Self.Mesa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orden" EntityType="Self.Orden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Platillo" EntityType="Self.Platillo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__DetallePe__codMe__4CA06362" Association="Self.FK__DetallePe__codMe__4CA06362">
+            <End Role="Mesa" EntitySet="Mesa" />
+            <End Role="DetallePedido" EntitySet="DetallePedido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DetallePe__codOr__4D94879B" Association="Self.FK__DetallePe__codOr__4D94879B">
+            <End Role="Orden" EntitySet="Orden" />
+            <End Role="DetallePedido" EntitySet="DetallePedido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DetallePe__codPl__4E88ABD4" Association="Self.FK__DetallePe__codPl__4E88ABD4">
+            <End Role="Platillo" EntitySet="Platillo" />
+            <End Role="DetallePedido" EntitySet="DetallePedido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Empleado__codUsu__3C69FB99" Association="Self.FK__Empleado__codUsu__3C69FB99">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orden__codClient__47DBAE45" Association="Self.FK__Orden__codClient__47DBAE45">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orden__codEmplea__48CFD27E" Association="Self.FK__Orden__codEmplea__48CFD27E">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orden__codMesa__49C3F6B7" Association="Self.FK__Orden__codMesa__49C3F6B7">
+            <End Role="Mesa" EntitySet="Mesa" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Platillo__codCat__44FF419A" Association="Self.FK__Platillo__codCat__44FF419A">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Platillo" EntitySet="Platillo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__codRol__398D8EEE" Association="Self.FK__Usuario__codRol__398D8EEE">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataBase_RestaurantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="idCategoria" />
+          </Key>
+          <Property Name="idCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreCategoria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Platillo" Relationship="Self.FK__Platillo__codCat__44FF419A" FromRole="Categoria" ToRole="Platillo" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Orden" Relationship="Self.FK__Orden__codClient__47DBAE45" FromRole="Cliente" ToRole="Orden" />
+          <Property Name="apellidoCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="direccionCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="duiCliente" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefonoCliente" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DetallePedido">
+          <Key>
+            <PropertyRef Name="idDetallePedido" />
+          </Key>
+          <Property Name="idDetallePedido" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cantidad" Type="Int32" Nullable="false" />
+          <Property Name="subTotal" Type="Double" Nullable="false" />
+          <Property Name="codMesa" Type="Int32" Nullable="true" />
+          <Property Name="codOrden" Type="Int32" />
+          <Property Name="codPlatillo" Type="Int32" />
+          <NavigationProperty Name="Mesa" Relationship="Self.FK__DetallePe__codMe__4CA06362" FromRole="DetallePedido" ToRole="Mesa" />
+          <NavigationProperty Name="Orden" Relationship="Self.FK__DetallePe__codOr__4D94879B" FromRole="DetallePedido" ToRole="Orden" />
+          <NavigationProperty Name="Platillo" Relationship="Self.FK__DetallePe__codPl__4E88ABD4" FromRole="DetallePedido" ToRole="Platillo" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="idEmpleado" />
+          </Key>
+          <Property Name="idEmpleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreEmpleado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellidoEmpleado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefonoEmpleado" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sueldoEmpleado" Type="Double" Nullable="false" />
+          <Property Name="codUsuario" Type="Int32" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Empleado__codUsu__3C69FB99" FromRole="Empleado" ToRole="Usuario" />
+          <NavigationProperty Name="Orden" Relationship="Self.FK__Orden__codEmplea__48CFD27E" FromRole="Empleado" ToRole="Orden" />
+        </EntityType>
+        <EntityType Name="Mesa">
+          <Key>
+            <PropertyRef Name="idMesa" />
+          </Key>
+          <Property Name="idMesa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numeroMesa" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DetallePedido" Relationship="Self.FK__DetallePe__codMe__4CA06362" FromRole="Mesa" ToRole="DetallePedido" />
+          <NavigationProperty Name="Orden" Relationship="Self.FK__Orden__codMesa__49C3F6B7" FromRole="Mesa" ToRole="Orden" />
+        </EntityType>
+        <EntityType Name="Orden">
+          <Key>
+            <PropertyRef Name="idOrden" />
+          </Key>
+          <Property Name="idOrden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fechaOrden" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="estadoOrden" Type="String" MaxLength="25" Unicode="false" FixedLength="false" Nullable="false" />
+          <Property Name="tipoOrden" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="totalOrden" Type="Double" Nullable="false" />
+          <Property Name="codCliente" Type="Int32" />
+          <Property Name="codEmpleado" Type="Int32" />
+          <Property Name="codMesa" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Orden__codClient__47DBAE45" FromRole="Orden" ToRole="Cliente" />
+          <NavigationProperty Name="DetallePedido" Relationship="Self.FK__DetallePe__codOr__4D94879B" FromRole="Orden" ToRole="DetallePedido" />
+          <NavigationProperty Name="Empleado" Relationship="Self.FK__Orden__codEmplea__48CFD27E" FromRole="Orden" ToRole="Empleado" />
+          <NavigationProperty Name="Mesa" Relationship="Self.FK__Orden__codMesa__49C3F6B7" FromRole="Orden" ToRole="Mesa" />
+        </EntityType>
+        <EntityType Name="Platillo">
+          <Key>
+            <PropertyRef Name="idPlatillo" />
+          </Key>
+          <Property Name="idPlatillo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombrePlatillo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="precioPlatillo" Type="Double" Nullable="false" />
+          <Property Name="descPlatillo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codCategoria" Type="Int32" />
+          <NavigationProperty Name="Categoria" Relationship="Self.FK__Platillo__codCat__44FF419A" FromRole="Platillo" ToRole="Categoria" />
+          <NavigationProperty Name="DetallePedido" Relationship="Self.FK__DetallePe__codPl__4E88ABD4" FromRole="Platillo" ToRole="DetallePedido" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreRol" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Usuario__codRol__398D8EEE" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="passwordUsuario" Type="String" MaxLength="512" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codRol" Type="Int32" />
+          <NavigationProperty Name="Empleado" Relationship="Self.FK__Empleado__codUsu__3C69FB99" FromRole="Usuario" ToRole="Empleado" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK__Usuario__codRol__398D8EEE" FromRole="Usuario" ToRole="Rol" />
+        </EntityType>
+        <Association Name="FK__Platillo__codCat__44FF419A">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+          <End Role="Platillo" Type="Self.Platillo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="idCategoria" />
+            </Principal>
+            <Dependent Role="Platillo">
+              <PropertyRef Name="codCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orden__codClient__47DBAE45">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="codCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DetallePe__codMe__4CA06362">
+          <End Role="Mesa" Type="Self.Mesa" Multiplicity="0..1" />
+          <End Role="DetallePedido" Type="Self.DetallePedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mesa">
+              <PropertyRef Name="idMesa" />
+            </Principal>
+            <Dependent Role="DetallePedido">
+              <PropertyRef Name="codMesa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DetallePe__codOr__4D94879B">
+          <End Role="Orden" Type="Self.Orden" Multiplicity="0..1" />
+          <End Role="DetallePedido" Type="Self.DetallePedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orden">
+              <PropertyRef Name="idOrden" />
+            </Principal>
+            <Dependent Role="DetallePedido">
+              <PropertyRef Name="codOrden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DetallePe__codPl__4E88ABD4">
+          <End Role="Platillo" Type="Self.Platillo" Multiplicity="0..1" />
+          <End Role="DetallePedido" Type="Self.DetallePedido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Platillo">
+              <PropertyRef Name="idPlatillo" />
+            </Principal>
+            <Dependent Role="DetallePedido">
+              <PropertyRef Name="codPlatillo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Empleado__codUsu__3C69FB99">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orden__codEmplea__48CFD27E">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
+          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="idEmpleado" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="codEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orden__codMesa__49C3F6B7">
+          <End Role="Mesa" Type="Self.Mesa" Multiplicity="0..1" />
+          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mesa">
+              <PropertyRef Name="idMesa" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="codMesa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__codRol__398D8EEE">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="idRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="codRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataBase_RestaurantEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="DetallePedido" EntityType="Self.DetallePedido" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+          <EntitySet Name="Mesa" EntityType="Self.Mesa" />
+          <EntitySet Name="Orden" EntityType="Self.Orden" />
+          <EntitySet Name="Platillo" EntityType="Self.Platillo" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK__Platillo__codCat__44FF419A" Association="Self.FK__Platillo__codCat__44FF419A">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Platillo" EntitySet="Platillo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orden__codClient__47DBAE45" Association="Self.FK__Orden__codClient__47DBAE45">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DetallePe__codMe__4CA06362" Association="Self.FK__DetallePe__codMe__4CA06362">
+            <End Role="Mesa" EntitySet="Mesa" />
+            <End Role="DetallePedido" EntitySet="DetallePedido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DetallePe__codOr__4D94879B" Association="Self.FK__DetallePe__codOr__4D94879B">
+            <End Role="Orden" EntitySet="Orden" />
+            <End Role="DetallePedido" EntitySet="DetallePedido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DetallePe__codPl__4E88ABD4" Association="Self.FK__DetallePe__codPl__4E88ABD4">
+            <End Role="Platillo" EntitySet="Platillo" />
+            <End Role="DetallePedido" EntitySet="DetallePedido" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Empleado__codUsu__3C69FB99" Association="Self.FK__Empleado__codUsu__3C69FB99">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orden__codEmplea__48CFD27E" Association="Self.FK__Orden__codEmplea__48CFD27E">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orden__codMesa__49C3F6B7" Association="Self.FK__Orden__codMesa__49C3F6B7">
+            <End Role="Mesa" EntitySet="Mesa" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__codRol__398D8EEE" Association="Self.FK__Usuario__codRol__398D8EEE">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DataBase_RestaurantModelStoreContainer" CdmEntityContainer="DataBase_RestaurantEntities">
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="DataBase_RestaurantModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+                <ScalarProperty Name="nombreCategoria" ColumnName="nombreCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="DataBase_RestaurantModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="telefonoCliente" ColumnName="telefonoCliente" />
+                <ScalarProperty Name="duiCliente" ColumnName="duiCliente" />
+                <ScalarProperty Name="direccionCliente" ColumnName="direccionCliente" />
+                <ScalarProperty Name="apellidoCliente" ColumnName="apellidoCliente" />
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+                <ScalarProperty Name="nombreCliente" ColumnName="nombreCliente" />
+                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetallePedido">
+            <EntityTypeMapping TypeName="DataBase_RestaurantModel.DetallePedido">
+              <MappingFragment StoreEntitySet="DetallePedido">
+                <ScalarProperty Name="idDetallePedido" ColumnName="idDetallePedido" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="subTotal" ColumnName="subTotal" />
+                <ScalarProperty Name="codMesa" ColumnName="codMesa" />
+                <ScalarProperty Name="codOrden" ColumnName="codOrden" />
+                <ScalarProperty Name="codPlatillo" ColumnName="codPlatillo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="DataBase_RestaurantModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
+                <ScalarProperty Name="nombreEmpleado" ColumnName="nombreEmpleado" />
+                <ScalarProperty Name="apellidoEmpleado" ColumnName="apellidoEmpleado" />
+                <ScalarProperty Name="telefonoEmpleado" ColumnName="telefonoEmpleado" />
+                <ScalarProperty Name="sueldoEmpleado" ColumnName="sueldoEmpleado" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mesa">
+            <EntityTypeMapping TypeName="DataBase_RestaurantModel.Mesa">
+              <MappingFragment StoreEntitySet="Mesa">
+                <ScalarProperty Name="idMesa" ColumnName="idMesa" />
+                <ScalarProperty Name="numeroMesa" ColumnName="numeroMesa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orden">
+            <EntityTypeMapping TypeName="DataBase_RestaurantModel.Orden">
+              <MappingFragment StoreEntitySet="Orden">
+                <ScalarProperty Name="idOrden" ColumnName="idOrden" />
+                <ScalarProperty Name="fechaOrden" ColumnName="fechaOrden" />
+                <ScalarProperty Name="estadoOrden" ColumnName="estadoOrden" />
+                <ScalarProperty Name="tipoOrden" ColumnName="tipoOrden" />
+                <ScalarProperty Name="totalOrden" ColumnName="totalOrden" />
+                <ScalarProperty Name="codCliente" ColumnName="codCliente" />
+                <ScalarProperty Name="codEmpleado" ColumnName="codEmpleado" />
+                <ScalarProperty Name="codMesa" ColumnName="codMesa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Platillo">
+            <EntityTypeMapping TypeName="DataBase_RestaurantModel.Platillo">
+              <MappingFragment StoreEntitySet="Platillo">
+                <ScalarProperty Name="idPlatillo" ColumnName="idPlatillo" />
+                <ScalarProperty Name="nombrePlatillo" ColumnName="nombrePlatillo" />
+                <ScalarProperty Name="precioPlatillo" ColumnName="precioPlatillo" />
+                <ScalarProperty Name="descPlatillo" ColumnName="descPlatillo" />
+                <ScalarProperty Name="codCategoria" ColumnName="codCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="DataBase_RestaurantModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="nombreRol" ColumnName="nombreRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="DataBase_RestaurantModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
+                <ScalarProperty Name="passwordUsuario" ColumnName="passwordUsuario" />
+                <ScalarProperty Name="codRol" ColumnName="codRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

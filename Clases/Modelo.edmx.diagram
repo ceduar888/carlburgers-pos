@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f75486016e2747b6bbfc065efde79254" Name="Diagram1" ZoomLevel="126">
+        <EntityTypeShape EntityType="DataBase_RestaurantModel.Categoria" Width="1.5" PointX="1.5" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBase_RestaurantModel.Cliente" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBase_RestaurantModel.DetallePedido" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBase_RestaurantModel.Empleado" Width="1.5" PointX="3.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBase_RestaurantModel.Mesa" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBase_RestaurantModel.Orden" Width="1.5" PointX="6" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBase_RestaurantModel.Platillo" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBase_RestaurantModel.Rol" Width="1.5" PointX="1.5" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBase_RestaurantModel.Usuario" Width="1.5" PointX="1.5" PointY="8.75" IsExpanded="true" />
+        <AssociationConnector Association="DataBase_RestaurantModel.FK__Platillo__codCat__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBase_RestaurantModel.FK__Orden__codClient__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBase_RestaurantModel.FK__DetallePe__codMe__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBase_RestaurantModel.FK__DetallePe__codOr__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBase_RestaurantModel.FK__DetallePe__codPl__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBase_RestaurantModel.FK__Empleado__codUsu__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBase_RestaurantModel.FK__Orden__codEmplea__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBase_RestaurantModel.FK__Orden__codMesa__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBase_RestaurantModel.FK__Usuario__codRol__398D8EEE" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
