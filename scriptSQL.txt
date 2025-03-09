@@ -1,0 +1,170 @@
+CREATE DATABASE Restaurante_DB
+
+USE Restaurante_DB
+
+CREATE TABLE Rol
+(
+	idRol int IDENTITY(1,1) PRIMARY KEY,
+	nombreRol VARCHAR(25) NOT NULL
+);
+
+CREATE TABLE Usuario
+(
+	idUsuario INT IDENTITY(1,1) PRIMARY KEY,
+	nombreUsuario VARCHAR(50) NOT NULL,
+	passwordUsuario VARCHAR(512) NOT NULL,
+	codRol INT FOREIGN KEY (codRol) REFERENCES Rol(idRol)
+);
+
+CREATE TABLE Empleado
+(
+	idEmpleado INT IDENTITY(1,1) PRIMARY KEY,
+	nombreEmpleado VARCHAR(50) NOT NULL,
+	apellidoEmpleado VARCHAR(50) NOT NULL,
+	telefonoEmpleado VARCHAR(15) NOT NULL,
+	sueldoEmpleado FLOAT NOT NULL,
+	codUsuario INT FOREIGN KEY (codUsuario) REFERENCES Usuario(idUsuario)
+);
+
+CREATE TABLE Cliente
+(
+	idCliente INT IDENTITY(1,1) PRIMARY KEY,
+	nombreCliente VARCHAR(50) NOT NULL,
+	apellidoCliente VARCHAR(50) NOT NULL,
+	direccionCliente VARCHAR(100) NOT NULL,
+	duiCliente VARCHAR(15) NOT NULL,
+	telefonoCliente VARCHAR(15) NOT NULL,
+);
+
+CREATE TABLE Mesa
+(
+	idMesa INT IDENTITY(1,1) PRIMARY KEY,
+	numeroMesa INT NOT NULL,
+);
+
+CREATE TABLE Categoria
+(
+	idCategoria INT IDENTITY(1,1) PRIMARY KEY,
+	nombreCategoria VARCHAR(50) NOT NULL,
+);
+
+CREATE TABLE Platillo
+(
+	idPlatillo INT IDENTITY(1,1) PRIMARY KEY,
+	nombrePlatillo VARCHAR(50) NOT NULL,
+	precioPlatillo FLOAT NOT NULL,
+	descPlatillo VARCHAR(100) NOT NULL,
+	codCategoria INT FOREIGN KEY (codCategoria) REFERENCES Categoria(idCategoria)
+);
+
+CREATE TABLE Orden
+(
+	idOrden INT IDENTITY(1,1) PRIMARY KEY,
+	fechaOrden DATE NOT NULL,
+	estadoOrden VARCHAR(25) NOT NULL,
+	tipoOrden VARCHAR(30),
+	totalOrden FLOAT NOT NULL,
+	codCliente INT NULL FOREIGN KEY (codCliente) REFERENCES Cliente(idCliente),
+	codEmpleado INT FOREIGN KEY (codEmpleado) REFERENCES Empleado(idEmpleado),
+	codMesa INT NULL FOREIGN KEY (codMesa) REFERENCES Mesa(idMesa)
+);
+
+CREATE TABLE DetallePedido
+(
+	idDetallePedido INT IDENTITY(1,1) PRIMARY KEY,
+	cantidad INT NOT NULL,
+	subTotal FLOAT NOT NULL,
+	codMesa INT NULL FOREIGN KEY (codMesa) REFERENCES Mesa(idMesa),
+	codOrden INT FOREIGN KEY (codOrden) REFERENCES Orden(idOrden),
+	codPlatillo INT FOREIGN KEY (codPlatillo) REFERENCES Platillo(idPlatillo)
+);
+
+
+INSERT INTO Mesa(numeroMesa)
+VALUES(1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
+
+INSERT INTO Categoria(nombreCategoria)
+VALUES('Combos'),('Combos infantiles'),('Desayunos'),('Hamburguesas'),('Papas Fritas'),('Bebidas'),('Postres'),('Extras'),('Promociones');
+
+INSERT INTO Rol(nombreRol)
+VALUES('Gerente'),('Cajero'),('Mesero'),('Cocinero');
+
+INSERT INTO Platillo(nombrePlatillo, descPlatillo, precioPlatillo, codCategoria)
+VALUES 
+	('Combo La Veggie','Hamburguesa vegana, papas y bebida medianas.',7.75,1),
+	('Combo 1/2 Libra','Hamburguesa con 1/2 de carne, papas y bebida medianas.',8.99,1),
+	('Combo La Cásica','Hamburguesa clásica, papas y bebida medianas.',5.99,1),
+	('Combo Mr. Bacon','Hamburguesa clasica con tocino crujiente, papas y bebida medianas.',6.99,1),
+	('Combo Double Trouble','Dos Hamburguesa clasicas, papas y bebida medianas.',9.99,1),
+	('Combo Carls BBQ','Hamburguesa clasica con salsa BBQ, papas y bebida medianas.',7.75,1),
+	('Combo La Gourmet','Hamburguesa con pan artesanal y carne gourmet, papas y bebida medianas.',8.99,1),
+	('Combo Mr. Doble','Hamburguesa clasica con doble carne, papas y bebida medianas.',7.75,1);
+
+INSERT INTO Platillo(nombrePlatillo, descPlatillo, precioPlatillo, codCategoria)
+VALUES
+	('Combo Carls Jr.','Hamburguesa clasica pequeña, papas y bebida pequeña.',3.99,2),
+	('Combo Chessy','Hamburguesa mediana pequeña con queso, papas y bebida pequeña.',4.99,2),
+	('Combo Chiken Jr.','Hamburguesa de pollo pequeña, papas y bebida pequeña.',2.99,2),
+	('Combo Carls Happy Meal','Hamburguesa clasica pequeña, papas y bebida pequeña + juguete de temporada.',4.99,2)
+
+INSERT INTO Platillo(nombrePlatillo, descPlatillo, precioPlatillo, codCategoria)
+VALUES
+	('Mr. Muffin','Muffin de huevo grande, con nuggets, café o jugo',4.49,3),
+	('Desayuno Tipico','Huevos revueltos, con nuggets, café o jugo',3.49,3),
+	('Carls Pancakes','4 pancakes con miel y mantequilla, café o jugo',3.99,3),
+	('Desayuno americano','Huevos revueltos, tocino, nuggets, café o jugo',4.99,3);
+
+INSERT INTO Platillo(nombrePlatillo, descPlatillo, precioPlatillo, codCategoria)
+VALUES
+	('La Clásica','Hamburguesa clásica con queso',2.99,4),
+	('La Veggie','Hamburguesa vegana completamente',3.25,4),
+	('Carls BBQ','Hamburguesa con salsa BBQ',3.75,4),
+	('La Mr. Double','Hamburguesa con doble carne',3.99,4),
+	('La Clásica','Hamburguesa clásica con queso',2.99,4),
+	('La Gourmet','Hamburguesa gourmet con queso',3.99,4),
+	('La 1/2 Libra','Hamburguesa con media libra de carne',4.50,4);
+
+INSERT INTO Platillo(nombrePlatillo, descPlatillo, precioPlatillo, codCategoria)
+VALUES
+	('Papa francesa pequeña','Papa pequeña',1.25,5),
+	('Papa francesa mediana','Papa mediana',1.55,5),
+	('Papa francesa grande','Papa grande',1.99,5),
+	('Papa twister pequeña','Papa pequeña',1.25,5),
+	('Papa twister mediana','Papa mediana',1.55,5),
+	('Papa twister grande','Papa grande',1.99,5),
+	('Crazy papa','Papas francesas con chilli, bañadas con queso cheddar',3.45,5),
+	('Bacon papa','Papas francesas con tocino, bañadas con queso cheddar',3.25,5);
+
+INSERT INTO Platillo(nombrePlatillo, descPlatillo, precioPlatillo, codCategoria)
+VALUES
+	('Soda','Coca-cola, fanta, sprite, uva',1.50,6),
+	('Té','Limón, frambuesa, durazno',1.50,6),
+	('Café','Café americano',1.50,6),
+	('Café con leche','Leche entera, deslactosada o descremada',1.99,6),
+	('Jugo de naranja','Jugo natural',2.99,6),
+	('Limonada','Limonada con menta o hiervabuena',3.75,6),
+	('Leche','Entera, descremada o deslactosada',1.50,6);
+
+INSERT INTO Platillo(nombrePlatillo, descPlatillo, precioPlatillo, codCategoria)
+VALUES
+	('Cakequito de naranja','CupCake de naranja',1.75,7),
+	('Pie casero','Queso/fresa, manzana o queso',1.99,7),
+	('ChesseCake','Fresa, mora o maracuya',3.55,7),
+	('Quesadilla','Quesadilla pequeña',1.50,7),
+	('Sorbete de cono','Una bola de sorbete, fresa, cocholate o vainilla',1.25,7);
+
+INSERT INTO Platillo(nombrePlatillo, descPlatillo, precioPlatillo, codCategoria)
+VALUES
+	('Agrandado de papas','Agrandado de papas francesas o twister a grandes',0.99,8),
+	('Agrandado de soda o té','Agrandado de soda o té a grande',0.99,8),
+	('Queso cheddar','Rebanada de queso cheddar',1.50,8),
+	('Pepinillos','Pepinillos frescos',0.50,8),
+	('Pan gourmet','Cambio de pan normal a gourmet',1.50,8);
+
+INSERT INTO Platillo(nombrePlatillo, descPlatillo, precioPlatillo, codCategoria)
+VALUES
+	('Clásico Familiar','4 hamburguesas clasicas, con papas y sodas pequeñas',19.99,9);
+
+
+
+
